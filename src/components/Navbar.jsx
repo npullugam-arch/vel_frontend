@@ -33,7 +33,7 @@ export default function Navbar() {
         <a href="#home" className="brand" onClick={handleNavClick}>
           <div className="logo-box">V</div>
           <div className="brand-info">
-            <strong>VELTRIXIX</strong>
+            <strong>VELTRIXIS</strong>
             <small>Future · Motion · Intelligence</small>
           </div>
         </a>
