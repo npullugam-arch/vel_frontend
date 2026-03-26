@@ -49,7 +49,7 @@ export default function ContactSection() {
 
         <div className="contact-grid">
           <div className="glass-card">
-            <h3>Veltrixix</h3>
+            <h3>Veltrixis</h3>
             <p>Email: contact@veltrixix.com</p>
             <p>Phone: +91 90000 00000</p>
             <p>Location: Hyderabad, India</p>
