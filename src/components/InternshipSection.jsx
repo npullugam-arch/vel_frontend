@@ -43,7 +43,7 @@ function getStatusClass(status) {
 export default function InternshipSection() {
   const [internships, setInternships] = useState([]);
   const [selected, setSelected] = useState(null);
-  const [activeFilter, setActiveFilter] = useState("ALL");
+  const [activeFilter, setActiveFilter] = useState("ONGOING");
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -64,7 +64,6 @@ export default function InternshipSection() {
   }, []);
 
   const filteredInternships = useMemo(() => {
-    if (activeFilter === "ALL") return internships;
     return internships.filter(
       (item) => (item.status || "").toUpperCase() === activeFilter
     );
@@ -81,23 +80,19 @@ export default function InternshipSection() {
 
         <div className="internship-filter-row">
           <button
-            className={`internship-filter-btn ${activeFilter === "ALL" ? "active" : ""}`}
-            onClick={() => setActiveFilter("ALL")}
-          >
-            All
-          </button>
-          <button
             className={`internship-filter-btn ${activeFilter === "ONGOING" ? "active" : ""}`}
             onClick={() => setActiveFilter("ONGOING")}
           >
             Ongoing
           </button>
+
           <button
             className={`internship-filter-btn ${activeFilter === "UPCOMING" ? "active" : ""}`}
             onClick={() => setActiveFilter("UPCOMING")}
           >
             Upcoming
           </button>
+
           <button
             className={`internship-filter-btn ${activeFilter === "COMPLETED" ? "active" : ""}`}
             onClick={() => setActiveFilter("COMPLETED")}
@@ -138,7 +133,9 @@ export default function InternshipSection() {
                       </span>
                     </div>
 
-                    <h3 className="internship-card-title">{item.title || "Untitled Internship"}</h3>
+                    <h3 className="internship-card-title">
+                      {item.title || "Untitled Internship"}
+                    </h3>
 
                     <p className="internship-card-domain">
                       {item.domain || "General Domain"}
@@ -150,14 +147,17 @@ export default function InternshipSection() {
                       <span className="internship-mini-label">Mentor</span>
                       <strong>{item.mentorName || "Not specified"}</strong>
                     </div>
+
                     <div className="internship-mini-box">
                       <span className="internship-mini-label">Mode</span>
                       <strong>{item.mode || "Not specified"}</strong>
                     </div>
+
                     <div className="internship-mini-box">
                       <span className="internship-mini-label">Duration</span>
                       <strong>{item.duration || "Not specified"}</strong>
                     </div>
+
                     <div className="internship-mini-box">
                       <span className="internship-mini-label">Fee</span>
                       <strong>{formatFee(item.fee)}</strong>
