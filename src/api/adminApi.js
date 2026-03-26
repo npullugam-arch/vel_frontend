@@ -1,6 +1,17 @@
-export const API_BASE_URL =
+const RAW_API_BASE_URL =
   import.meta.env.VITE_API_BASE_URL || "http://localhost:8080/api";
-export const API_ORIGIN = new URL(API_BASE_URL).origin;
+
+export const API_BASE_URL = RAW_API_BASE_URL.trim().replace(/\/+$/, "");
+
+export const API_ORIGIN = (() => {
+  try {
+    return new URL(API_BASE_URL).origin;
+  } catch (error) {
+    console.error("Invalid VITE_API_BASE_URL:", API_BASE_URL, error);
+    return "http://localhost:8080";
+  }
+})();
+
 const STORAGE_KEY = "veltrixix_admin_auth";
 
 function getToken() {
