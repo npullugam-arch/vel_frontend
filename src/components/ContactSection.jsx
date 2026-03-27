@@ -50,9 +50,9 @@ export default function ContactSection() {
         <div className="contact-grid">
           <div className="glass-card">
             <h3>Veltrixis</h3>
-            <p>Email: contact@veltrixix.com</p>
-            <p>Phone: +91 90000 00000</p>
-            <p>Location: Hyderabad, India</p>
+            <p>Email: contact@veltrixis.com</p>
+            <p>Phone: +91 96528 87222</p>
+            <p>Location: Mig 146 -1/3 road no. 44 mayuri nagar, miyapur, hyderabad, 500049</p>
           </div>
 
           <form className="glass-card form-grid" onSubmit={handleSubmit}>

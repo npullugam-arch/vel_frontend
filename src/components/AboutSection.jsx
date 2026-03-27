@@ -4,7 +4,7 @@ export default function AboutSection() {
       <section id="about" className="section">
         <div className="container">
           <div className="sec-head reveal">
-            <span className="sec-label">About Veltrixix</span>
+            <span className="sec-label">About Veltrixis</span>
             <h2>Who we are &amp; what we do</h2>
             <p>
               A curated ecosystem connecting learners, mentors, and organizations
@@ -21,9 +21,9 @@ export default function AboutSection() {
               >
                 📖 Our Story
               </span>
-              <h3>About Veltrixix</h3>
+              <h3>About Veltrixis</h3>
               <p>
-                Veltrixix was founded with a singular vision — to bridge the gap
+                Veltrixis was founded with a singular vision — to bridge the gap
                 between academic learning and industry-ready skills. We design
                 immersive, mentor-led programs that transform theoretical knowledge
                 into real-world capability. Every program is crafted with intention,
@@ -31,7 +31,7 @@ export default function AboutSection() {
               </p>
               <div className="quote-block">
                 "We don&apos;t just teach — we build builders."
-                <em>— Veltrixix Founding Team</em>
+                <em>— Veltrixis Founding Team</em>
               </div>
             </div>
 
@@ -40,7 +40,7 @@ export default function AboutSection() {
                 className="pill"
                 style={{ borderColor: "rgba(108,79,255,.3)", marginBottom: 16 }}
               >
-                ✨ Why Veltrixix
+                ✨ Why Veltrixis
               </span>
               <h3>Why we&apos;re different</h3>
               <p>
@@ -51,7 +51,7 @@ export default function AboutSection() {
               </p>
               <div className="quote-block">
                 "Innovation is not a moment — it is a system."
-                <em>— Veltrixix</em>
+                <em>— Veltrixis</em>
               </div>
             </div>
           </div>
@@ -113,7 +113,7 @@ export default function AboutSection() {
               <h3>Build an Ecosystem of Creators</h3>
               <p>
                 Create a globally connected community where learning is measurable,
-                collaboration is seamless, and outcomes are visible. Veltrixix
+                collaboration is seamless, and outcomes are visible. Veltrixis
                 envisions a future where every learner becomes a builder who
                 contributes to the world.
               </p>

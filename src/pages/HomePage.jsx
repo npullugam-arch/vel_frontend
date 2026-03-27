@@ -524,13 +524,13 @@ export default function HomePage() {
               <h1 className="hero-title">
                 Building the next
                 <br />
-                <span className="grad-text">animated innovation</span>
+                <span className="grad-text">real-world experiences</span>
                 <br />
                 hub for the future
               </h1>
 
               <p className="hero-sub">
-                VERTRIXIS is a premium, futuristic learning-and-collaboration
+                VELTRIXIS is a premium, futuristic learning-and-collaboration
                 ecosystem for internships, events, and real-world projects —
                 powered by AI and driven by purpose.
               </p>
