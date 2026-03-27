@@ -560,19 +560,26 @@ export default function HomePage() {
               </div>
             </div>
 
-            <div className="sphere-wrap reveal visible" ref={sphereWrapRef}>
-              <canvas ref={sphereCanvasRef} className="sphere-canvas" />
+           <div className="sphere-wrap reveal visible" ref={sphereWrapRef}>
+  <canvas ref={sphereCanvasRef} className="sphere-canvas" />
 
-              <div className="sphere-core-logo">V</div>
+  <div className="sphere-core-logo">
+    <img
+      src="https://i.postimg.cc/hjbKr4p9/veltrix-logo-transparent.png"
+      alt="Veltrixis Logo"
+      className="hero-logo-image"
+      draggable="false"
+    />
+  </div>
 
-              <div className="inner-badge inner-badge-ai">
-                <span>⚡</span> AI Smart Programs
-              </div>
+  <div className="inner-badge inner-badge-ai">
+    <span>⚡</span> AI Smart Programs
+  </div>
 
-              <div className="inner-badge inner-badge-3d">
-                <span>🌀</span> Interactive Experience
-              </div>
-            </div>
+  <div className="inner-badge inner-badge-3d">
+    <span>🌀</span> Interactive Experience
+  </div>
+</div>
           </div>
         </section>
 
