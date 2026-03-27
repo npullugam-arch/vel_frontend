@@ -3,18 +3,15 @@ export default function Footer() {
     <footer className="footer">
       <div className="container">
         <div className="footer-grid">
+
+          {/* ===== LOGO SECTION (UPDATED) ===== */}
           <div>
             <div className="footer-brand">
-              <div className="logo-box small">V</div>
-              <div>
-                <strong style={{ fontSize: 14, letterSpacing: ".1em" }}>
-                  VELTRIXIS
-                </strong>
-                <br />
-                <small style={{ color: "var(--muted)", fontSize: 11 }}>
-                  Future · Motion · Intelligence
-                </small>
-              </div>
+              <img
+                src="https://i.postimg.cc/hjbKr4p9/veltrix-logo-transparent.png"
+                alt="Veltrixis Logo"
+                className="footer-logo"
+              />
             </div>
 
             <p style={{ fontSize: 13, lineHeight: 1.7 }}>
@@ -30,6 +27,7 @@ export default function Footer() {
             </div>
           </div>
 
+          {/* ===== QUICK LINKS ===== */}
           <div>
             <h4>Quick Links</h4>
             <a href="#about">About</a>
@@ -40,6 +38,7 @@ export default function Footer() {
             <a href="#contact">Contact</a>
           </div>
 
+          {/* ===== LEADERSHIP ===== */}
           <div>
             <h4>Leadership</h4>
             <p>Board of Directors</p>
@@ -48,15 +47,24 @@ export default function Footer() {
             <p>Mentorship Council</p>
           </div>
 
+          {/* ===== CONTACT ===== */}
           <div>
             <h4>Contact Us</h4>
             <p>📧 hello@veltrixis.com</p>
             <p style={{ marginTop: 8 }}>📞 +91 96528 87222</p>
-            <p style={{ marginTop: 8 }}>📍 Mig 146 -1/3 road no. 44 mayuri nagar, miyapur, hyderabad, 500049</p>
+            <p style={{ marginTop: 8 }}>
+              📍 Mig 146 -1/3 road no. 44 mayuri nagar, miyapur, hyderabad,
+              500049
+            </p>
             <p style={{ marginTop: 8 }}>🕐 Mon–Fri, 9am–6pm IST</p>
+
             <a
               className="btn primary sm"
-              style={{ marginTop: 14, width: "100%", justifyContent: "center" }}
+              style={{
+                marginTop: 14,
+                width: "100%",
+                justifyContent: "center",
+              }}
               href="#contact"
             >
               Send Message
@@ -65,7 +73,8 @@ export default function Footer() {
         </div>
 
         <div className="footer-copy">
-          © 2026 Veltrixix. All rights reserved. Built with ❤️ &amp; Intelligence.
+          © 2026 Veltrixix. All rights reserved. Built with ❤️ &amp;
+          Intelligence.
         </div>
       </div>
     </footer>
