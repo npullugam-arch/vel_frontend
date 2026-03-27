@@ -209,15 +209,18 @@ export default function RegisterModal({
                 </p>
               </div>
 
-              <div className="payment-card">
-                <h5>Bank Transfer</h5>
-                <p>
-                  <span>Account Number:</span> 123456789012
-                </p>
-                <p>
-                  <span>IFSC Code:</span> SBIN0001234
-                </p>
-              </div>
+             <div className="payment-card">
+  <h5>Bank Transfer</h5>
+  <p>
+    <span>Bank Name:</span> Axis Bank
+  </p>
+  <p>
+    <span>Account Number:</span> 123456789012
+  </p>
+  <p>
+    <span>IFSC Code:</span> UTIB0001234
+  </p>
+</div>
             </div>
 
             <div className="register-form-grid payment-input-grid">
