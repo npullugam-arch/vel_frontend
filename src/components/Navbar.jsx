@@ -31,11 +31,11 @@ export default function Navbar() {
     <header className="topbar">
       <div className="container nav">
         <a href="#home" className="brand" onClick={handleNavClick}>
-          <div className="logo-box">V</div>
-          <div className="brand-info">
-            <strong>VELTRIXIS</strong>
-            <small>Future · Motion · Intelligence</small>
-          </div>
+          <img
+            src="https://i.postimg.cc/hjbKr4p9/veltrix-logo-transparent.png"
+            alt="Veltrixis Logo"
+            className="brand-logo"
+          />
         </a>
 
         <nav className={`navlinks ${open ? "open" : ""}`}>

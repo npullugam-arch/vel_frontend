@@ -4307,3 +4307,22 @@ select {
     align-items: stretch;
   }
 }
+
+.brand {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.brand-logo {
+  height: 150px;
+  width: auto;
+  object-fit: contain;
+  display: block;
+}
+
+@media (max-width: 768px) {
+  .brand-logo {
+    height:120px;
+  }
+}
