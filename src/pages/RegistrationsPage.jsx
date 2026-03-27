@@ -5,8 +5,64 @@ import DataTable from "../components/DataTable";
 
 const selectionStatuses = ["NEW", "UNDER_REVIEW", "APPROVED", "REJECTED", "WAITLISTED"];
 
+function RegistrationDetailsModal({ item, onClose }) {
+  if (!item) return null;
+
+  const detailRows = [
+    { label: "Full Name", value: item.fullName },
+    { label: "College Name", value: item.collegeName },
+    { label: "Roll Number", value: item.rollNumber },
+    { label: "College Email", value: item.collegeEmail },
+    { label: "Personal Email", value: item.personalEmail },
+    { label: "WhatsApp Number", value: item.whatsappNumber },
+    { label: "Branch", value: item.branch },
+    { label: "Year of Study", value: item.yearOfStudy },
+    { label: "City", value: item.city },
+    { label: "Interest Details", value: item.interestMessage },
+    { label: "Transaction ID", value: item.transactionId },
+    { label: "UTR ID", value: item.utrId },
+    { label: "Registration Type", value: item.registrationType },
+    { label: "Reference ID", value: item.referenceId },
+    { label: "Payment Status", value: item.paymentStatus },
+    { label: "Selection Status", value: item.selectionStatus },
+    { label: "Internship ID", value: item.internshipId },
+    { label: "Event ID", value: item.eventId },
+    { label: "Project ID", value: item.projectId },
+    { label: "Created At", value: item.createdAt },
+    { label: "Updated At", value: item.updatedAt },
+  ];
+
+  return (
+    <div className="admin-modal-backdrop" onClick={onClose}>
+      <div className="admin-modal-box" onClick={(e) => e.stopPropagation()}>
+        <div className="admin-modal-head">
+          <div>
+            <h3>Registration Details</h3>
+            <p>View complete information submitted by the applicant.</p>
+          </div>
+          <button className="admin-modal-close" onClick={onClose} type="button">
+            ✕
+          </button>
+        </div>
+
+        <div className="registration-detail-grid">
+          {detailRows.map((row) => (
+            <div className="registration-detail-card" key={row.label}>
+              <span className="registration-detail-label">{row.label}</span>
+              <span className="registration-detail-value">
+                {row.value ? String(row.value) : "-"}
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function RegistrationsPage() {
   const [items, setItems] = useState([]);
+  const [selectedItem, setSelectedItem] = useState(null);
 
   useEffect(() => {
     loadItems();
@@ -54,9 +110,23 @@ export default function RegistrationsPage() {
       key: "actions",
       label: "Actions",
       render: (row) => (
-        <button className="btn btn-danger btn-sm" onClick={() => handleDelete(row.id)}>
-          Delete
-        </button>
+        <div className="registration-actions">
+          <button
+            className="btn btn-secondary btn-sm"
+            onClick={() => setSelectedItem(row)}
+            type="button"
+          >
+            View
+          </button>
+
+          <button
+            className="btn btn-danger btn-sm"
+            onClick={() => handleDelete(row.id)}
+            type="button"
+          >
+            Delete
+          </button>
+        </div>
       ),
     },
   ];
@@ -67,7 +137,13 @@ export default function RegistrationsPage() {
         title="Registrations"
         subtitle="Review applications and update selection status."
       />
+
       <DataTable columns={columns} rows={items} />
+
+      <RegistrationDetailsModal
+        item={selectedItem}
+        onClose={() => setSelectedItem(null)}
+      />
     </div>
   );
 }
