@@ -572,11 +572,11 @@ export default function HomePage() {
     />
   </div>
 
-  <div className="inner-badge inner-badge-ai">
+  <div className="inner-badge inner-badge-ai nanda">
     <span>⚡</span> AI Smart Programs
   </div>
 
-  <div className="inner-badge inner-badge-3d">
+  <div className="inner-badge inner-badge-3d minnu">
     <span>🌀</span> Interactive Experience
   </div>
 </div>
