@@ -215,10 +215,10 @@ export default function RegisterModal({
     <span>Bank Name:</span> Axis Bank
   </p>
   <p>
-    <span>Account Number:</span> 123456789012
+    <span>Account Number:</span> 925020036001196
   </p>
   <p>
-    <span>IFSC Code:</span> UTIB0001234
+    <span>IFSC Code:</span> UTIB0004244
   </p>
 </div>
             </div>
