@@ -202,12 +202,12 @@ export default function RegisterModal({
             </div>
 
             <div className="payment-grid">
-              <div className="payment-card">
+              {/* <div className="payment-card">
                 <h5>UPI Payment</h5>
                 <p>
                   <span>UPI ID:</span> yourname@ybl
                 </p>
-              </div>
+              </div> */}
 
              <div className="payment-card">
   <h5>Bank Transfer</h5>

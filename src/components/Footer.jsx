@@ -51,7 +51,7 @@ export default function Footer() {
           <div>
             <h4>Contact Us</h4>
             <p>📧 hello@veltrixis.com</p>
-            <p style={{ marginTop: 8 }}>📞 +91 96528 87222</p>
+            {/* <p style={{ marginTop: 8 }}>📞 +91 96528 87222</p> */}
             <p style={{ marginTop: 8 }}>
               📍 Mig 146 -1/3 road no. 44 mayuri nagar, miyapur, hyderabad,
               500049

@@ -51,7 +51,7 @@ export default function ContactSection() {
           <div className="glass-card">
             <h3>Veltrixis</h3>
             <p>Email: contact@veltrixis.com</p>
-            <p>Phone: +91 96528 87222</p>
+            {/* <p>Phone: +91 96528 87222</p> */}
             <p>Location: Mig 146 -1/3 road no. 44 mayuri nagar, miyapur, hyderabad, 500049</p>
           </div>
 
