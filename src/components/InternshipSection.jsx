@@ -40,11 +40,42 @@ function getStatusClass(status) {
   return "";
 }
 
+function DetailPopup({ open, title, content, onClose }) {
+  if (!open) return null;
+
+  return (
+    <div className="internship-popup-overlay" onClick={onClose}>
+      <div
+        className="internship-popup-card"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="internship-popup-header">
+          <h3>{title}</h3>
+          <button className="internship-popup-close" onClick={onClose} type="button">
+            ×
+          </button>
+        </div>
+
+        <div className="internship-popup-body">
+          <p style={{ whiteSpace: "pre-line" }}>
+            {content || "Details will be updated soon."}
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function InternshipSection() {
   const [internships, setInternships] = useState([]);
   const [selected, setSelected] = useState(null);
   const [activeFilter, setActiveFilter] = useState("ONGOING");
   const [loading, setLoading] = useState(true);
+  const [detailModal, setDetailModal] = useState({
+    open: false,
+    title: "",
+    content: "",
+  });
 
   useEffect(() => {
     async function loadInternships() {
@@ -68,6 +99,30 @@ export default function InternshipSection() {
       (item) => (item.status || "").toUpperCase() === activeFilter
     );
   }, [internships, activeFilter]);
+
+  const openAboutPopup = (item) => {
+    setDetailModal({
+      open: true,
+      title: `${item.title || "Internship"} - About this Internship`,
+      content: item.aboutText || item.description || "Details will be updated soon.",
+    });
+  };
+
+  const openSchedulePopup = (item) => {
+    setDetailModal({
+      open: true,
+      title: `${item.title || "Internship"} - View Schedule`,
+      content: item.scheduleText || "Schedule will be updated soon.",
+    });
+  };
+
+  const closeDetailPopup = () => {
+    setDetailModal({
+      open: false,
+      title: "",
+      content: "",
+    });
+  };
 
   return (
     <section id="internships" className="section internship-showcase-section">
@@ -164,11 +219,6 @@ export default function InternshipSection() {
                     </div>
                   </div>
 
-                  <div className="internship-description-block">
-                    <h4>About this internship</h4>
-                    <p>{item.description || "Description will be updated soon."}</p>
-                  </div>
-
                   <div className="internship-details-list">
                     <div className="internship-detail-row">
                       <span>Capacity</span>
@@ -186,7 +236,23 @@ export default function InternshipSection() {
                     </div>
                   </div>
 
-                  <div className="internship-card-actions">
+                  <div className="internship-card-actions" style={{ display: "grid", gap: "10px" }}>
+                    <button
+                      type="button"
+                      className="btn btn-secondary"
+                      onClick={() => openAboutPopup(item)}
+                    >
+                      About this Internship
+                    </button>
+
+                    <button
+                      type="button"
+                      className="btn btn-secondary"
+                      onClick={() => openSchedulePopup(item)}
+                    >
+                      View Schedule
+                    </button>
+
                     <button
                       className={`btn internship-register-btn ${
                         isRegistrationOpen ? "btn-primary" : "btn-disabled-look"
@@ -209,6 +275,13 @@ export default function InternshipSection() {
           type="INTERNSHIP"
           itemId={selected?.id}
           itemTitle={selected?.title || ""}
+        />
+
+        <DetailPopup
+          open={detailModal.open}
+          title={detailModal.title}
+          content={detailModal.content}
+          onClose={closeDetailPopup}
         />
       </div>
     </section>

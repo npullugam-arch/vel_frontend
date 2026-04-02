@@ -9,6 +9,8 @@ const initialForm = {
   domain: "",
   mentorName: "",
   description: "",
+  aboutText: "",
+  scheduleText: "",
   duration: "",
   mode: "ONLINE",
   fee: "",
@@ -55,6 +57,8 @@ export default function InternshipsPage() {
       domain: item.domain || "",
       mentorName: item.mentorName || "",
       description: item.description || "",
+      aboutText: item.aboutText || "",
+      scheduleText: item.scheduleText || "",
       duration: item.duration || "",
       mode: item.mode || "ONLINE",
       fee: item.fee || "",
@@ -138,7 +142,31 @@ export default function InternshipsPage() {
           <input name="title" placeholder="Title" value={form.title} onChange={handleChange} required />
           <input name="domain" placeholder="Domain" value={form.domain} onChange={handleChange} />
           <input name="mentorName" placeholder="Mentor Name" value={form.mentorName} onChange={handleChange} />
-          <textarea name="description" placeholder="Description" value={form.description} onChange={handleChange} rows="4" />
+
+          <textarea
+            name="description"
+            placeholder="Short Description"
+            value={form.description}
+            onChange={handleChange}
+            rows="3"
+          />
+
+          <textarea
+            name="aboutText"
+            placeholder="About This Internship"
+            value={form.aboutText}
+            onChange={handleChange}
+            rows="5"
+          />
+
+          <textarea
+            name="scheduleText"
+            placeholder="View Schedule"
+            value={form.scheduleText}
+            onChange={handleChange}
+            rows="5"
+          />
+
           <input name="duration" placeholder="Duration" value={form.duration} onChange={handleChange} />
 
           <select name="mode" value={form.mode} onChange={handleChange}>
