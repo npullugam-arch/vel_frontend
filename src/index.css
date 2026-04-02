@@ -4529,3 +4529,154 @@ select {
   }
 }
 
+.internship-card-actions-vertical {
+  display: grid;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.internship-info-btn {
+  width: 100%;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.05);
+  color: #ffffff;
+  font-weight: 600;
+  border-radius: 16px;
+  padding: 14px 18px;
+  transition: all 0.25s ease;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.internship-info-btn:hover {
+  transform: translateY(-2px);
+  background: rgba(110, 168, 254, 0.14);
+  border-color: rgba(110, 168, 254, 0.45);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.22);
+}
+
+.internship-popup-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(4, 10, 24, 0.72);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  z-index: 9999;
+  animation: internshipPopupFade 0.25s ease;
+}
+
+.internship-popup-modal {
+  width: min(760px, 100%);
+  max-height: 85vh;
+  overflow: hidden;
+  border-radius: 24px;
+  border: 1px solid rgba(120, 170, 255, 0.22);
+  background:
+    linear-gradient(180deg, rgba(15, 23, 50, 0.96), rgba(10, 17, 37, 0.96));
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.45);
+  animation: internshipPopupScale 0.28s ease;
+}
+
+.internship-popup-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 22px 24px 18px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.internship-popup-header h3 {
+  margin: 0;
+  color: #ffffff;
+  font-size: clamp(20px, 2vw, 28px);
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.internship-popup-close {
+  width: 42px;
+  height: 42px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+  font-size: 26px;
+  font-weight: 500;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: all 0.22s ease;
+}
+
+.internship-popup-close:hover {
+  background: rgba(255, 255, 255, 0.16);
+  transform: rotate(90deg);
+}
+
+.internship-popup-body {
+  max-height: calc(85vh - 90px);
+  overflow-y: auto;
+  padding: 24px;
+}
+
+.internship-popup-content {
+  color: rgba(236, 241, 255, 0.95);
+  font-size: 17px;
+  line-height: 1.9;
+}
+
+.internship-popup-content p {
+  margin: 0 0 14px;
+  word-break: break-word;
+}
+
+.internship-popup-content p:last-child {
+  margin-bottom: 0;
+}
+
+@keyframes internshipPopupFade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes internshipPopupScale {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (max-width: 768px) {
+  .internship-popup-overlay {
+    padding: 16px;
+  }
+
+  .internship-popup-modal {
+    width: 100%;
+    max-height: 88vh;
+    border-radius: 20px;
+  }
+
+  .internship-popup-header {
+    padding: 18px 18px 14px;
+  }
+
+  .internship-popup-body {
+    padding: 18px;
+  }
+
+  .internship-popup-content {
+    font-size: 15px;
+    line-height: 1.75;
+  }
+}

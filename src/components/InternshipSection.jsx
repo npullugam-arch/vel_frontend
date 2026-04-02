@@ -19,7 +19,9 @@ function formatDate(dateValue) {
 }
 
 function formatFee(fee) {
-  if (fee === null || fee === undefined || fee === "") return "Free / Not specified";
+  if (fee === null || fee === undefined || fee === "") {
+    return "Free / Not specified";
+  }
 
   const numericFee = Number(fee);
   if (Number.isNaN(numericFee)) return fee;
@@ -41,25 +43,54 @@ function getStatusClass(status) {
 }
 
 function DetailPopup({ open, title, content, onClose }) {
+  useEffect(() => {
+    if (!open) return;
+
+    const handleEscape = (event) => {
+      if (event.key === "Escape") {
+        onClose();
+      }
+    };
+
+    document.addEventListener("keydown", handleEscape);
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      document.removeEventListener("keydown", handleEscape);
+      document.body.style.overflow = "";
+    };
+  }, [open, onClose]);
+
   if (!open) return null;
 
   return (
     <div className="internship-popup-overlay" onClick={onClose}>
       <div
-        className="internship-popup-card"
+        className="internship-popup-modal"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="internship-popup-header">
           <h3>{title}</h3>
-          <button className="internship-popup-close" onClick={onClose} type="button">
+          <button
+            type="button"
+            className="internship-popup-close"
+            onClick={onClose}
+            aria-label="Close popup"
+          >
             ×
           </button>
         </div>
 
         <div className="internship-popup-body">
-          <p style={{ whiteSpace: "pre-line" }}>
-            {content || "Details will be updated soon."}
-          </p>
+          <div className="internship-popup-content">
+            {content ? (
+              content.split("\n").map((line, index) => (
+                <p key={index}>{line || "\u00A0"}</p>
+              ))
+            ) : (
+              <p>Details will be updated soon.</p>
+            )}
+          </div>
         </div>
       </div>
     </div>
@@ -104,7 +135,10 @@ export default function InternshipSection() {
     setDetailModal({
       open: true,
       title: `${item.title || "Internship"} - About this Internship`,
-      content: item.aboutText || item.description || "Details will be updated soon.",
+      content:
+        item.aboutText ||
+        item.description ||
+        "Details will be updated soon.",
     });
   };
 
@@ -135,21 +169,27 @@ export default function InternshipSection() {
 
         <div className="internship-filter-row">
           <button
-            className={`internship-filter-btn ${activeFilter === "ONGOING" ? "active" : ""}`}
+            className={`internship-filter-btn ${
+              activeFilter === "ONGOING" ? "active" : ""
+            }`}
             onClick={() => setActiveFilter("ONGOING")}
           >
             Ongoing
           </button>
 
           <button
-            className={`internship-filter-btn ${activeFilter === "UPCOMING" ? "active" : ""}`}
+            className={`internship-filter-btn ${
+              activeFilter === "UPCOMING" ? "active" : ""
+            }`}
             onClick={() => setActiveFilter("UPCOMING")}
           >
             Upcoming
           </button>
 
           <button
-            className={`internship-filter-btn ${activeFilter === "COMPLETED" ? "active" : ""}`}
+            className={`internship-filter-btn ${
+              activeFilter === "COMPLETED" ? "active" : ""
+            }`}
             onClick={() => setActiveFilter("COMPLETED")}
           >
             Completed
@@ -179,12 +219,15 @@ export default function InternshipSection() {
                       <span className={`internship-status-badge ${statusClass}`}>
                         {item.status || "N/A"}
                       </span>
+
                       <span
                         className={`internship-registration-pill ${
                           isRegistrationOpen ? "open" : "closed"
                         }`}
                       >
-                        {isRegistrationOpen ? "Registration Open" : "Registration Closed"}
+                        {isRegistrationOpen
+                          ? "Registration Open"
+                          : "Registration Closed"}
                       </span>
                     </div>
 
@@ -236,10 +279,10 @@ export default function InternshipSection() {
                     </div>
                   </div>
 
-                  <div className="internship-card-actions" style={{ display: "grid", gap: "10px" }}>
+                  <div className="internship-card-actions internship-card-actions-vertical">
                     <button
                       type="button"
-                      className="btn btn-secondary"
+                      className="btn internship-info-btn"
                       onClick={() => openAboutPopup(item)}
                     >
                       About this Internship
@@ -247,7 +290,7 @@ export default function InternshipSection() {
 
                     <button
                       type="button"
-                      className="btn btn-secondary"
+                      className="btn internship-info-btn"
                       onClick={() => openSchedulePopup(item)}
                     >
                       View Schedule
@@ -260,7 +303,9 @@ export default function InternshipSection() {
                       onClick={() => setSelected(item)}
                       disabled={!isRegistrationOpen}
                     >
-                      {isRegistrationOpen ? "Register Now" : "Registrations Closed"}
+                      {isRegistrationOpen
+                        ? "Register Now"
+                        : "Registrations Closed"}
                     </button>
                   </div>
                 </article>
