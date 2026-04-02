@@ -23,14 +23,28 @@ export default function EventsPage() {
   const [form, setForm] = useState(initialForm);
   const [editingItem, setEditingItem] = useState(null);
   const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [deletingId, setDeletingId] = useState(null);
+  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
     loadItems();
   }, []);
 
   const loadItems = async () => {
-    const result = await eventsApi.getAll();
-    setItems(result?.data || []);
+    try {
+      setLoading(true);
+      setErrorMessage("");
+      const result = await eventsApi.getAll();
+      setItems(Array.isArray(result?.data) ? result.data : []);
+    } catch (error) {
+      console.error("Failed to load events:", error);
+      setErrorMessage(error.message || "Failed to load events.");
+      setItems([]);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleChange = (e) => {
@@ -44,6 +58,7 @@ export default function EventsPage() {
   const openCreate = () => {
     setEditingItem(null);
     setForm(initialForm);
+    setErrorMessage("");
     setOpen(true);
   };
 
@@ -56,13 +71,23 @@ export default function EventsPage() {
       description: item.description || "",
       location: item.location || "",
       sponsors: item.sponsors || "",
-      capacity: item.capacity || "",
+      capacity:
+        item.capacity === null || item.capacity === undefined
+          ? ""
+          : String(item.capacity),
       eventType: item.eventType || "PARTICIPANT",
       status: item.status || "ONGOING",
-      eventDate: item.eventDate || "",
+      eventDate: item.eventDate ? String(item.eventDate).slice(0, 10) : "",
       registrationOpen: item.registrationOpen ?? true,
     });
+    setErrorMessage("");
     setOpen(true);
+  };
+
+  const closeModal = () => {
+    setOpen(false);
+    setEditingItem(null);
+    setForm(initialForm);
   };
 
   const handleSubmit = async (e) => {
@@ -71,23 +96,48 @@ export default function EventsPage() {
     const payload = {
       ...form,
       capacity: form.capacity === "" ? null : Number(form.capacity),
+      eventDate: form.eventDate || null,
     };
 
-    if (editingItem) {
-      await eventsApi.update(editingItem.id, payload);
-    } else {
-      await eventsApi.create(payload);
-    }
+    try {
+      setSubmitting(true);
+      setErrorMessage("");
 
-    setOpen(false);
-    setForm(initialForm);
-    await loadItems();
+      if (editingItem) {
+        await eventsApi.update(editingItem.id, payload);
+      } else {
+        await eventsApi.create(payload);
+      }
+
+      closeModal();
+      await loadItems();
+    } catch (error) {
+      console.error("Failed to save event:", error);
+      setErrorMessage(error.message || "Failed to save event.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const handleDelete = async (id) => {
-    if (!window.confirm("Delete this event?")) return;
-    await eventsApi.remove(id);
-    await loadItems();
+    const confirmed = window.confirm("Delete this event?");
+    if (!confirmed) return;
+
+    try {
+      setDeletingId(id);
+      setErrorMessage("");
+
+      await eventsApi.remove(id);
+
+      setItems((prev) => prev.filter((item) => item.id !== id));
+      alert("Event deleted successfully.");
+    } catch (error) {
+      console.error("Failed to delete event:", error);
+      alert(error.message || "Failed to delete event.");
+      setErrorMessage(error.message || "Failed to delete event.");
+    } finally {
+      setDeletingId(null);
+    }
   };
 
   const columns = [
@@ -101,11 +151,21 @@ export default function EventsPage() {
       label: "Actions",
       render: (row) => (
         <div className="action-row">
-          <button className="btn btn-secondary btn-sm" onClick={() => openEdit(row)}>
+          <button
+            type="button"
+            className="btn btn-secondary btn-sm"
+            onClick={() => openEdit(row)}
+            disabled={deletingId === row.id}
+          >
             Edit
           </button>
-          <button className="btn btn-danger btn-sm" onClick={() => handleDelete(row.id)}>
-            Delete
+          <button
+            type="button"
+            className="btn btn-danger btn-sm"
+            onClick={() => handleDelete(row.id)}
+            disabled={deletingId === row.id}
+          >
+            {deletingId === row.id ? "Deleting..." : "Delete"}
           </button>
         </div>
       ),
@@ -118,23 +178,81 @@ export default function EventsPage() {
         title="Events"
         subtitle="Manage participant and collaboration events."
         action={
-          <button className="btn btn-primary" onClick={openCreate}>
+          <button className="btn btn-primary" onClick={openCreate} type="button">
             Add Event
           </button>
         }
       />
 
-      <DataTable columns={columns} rows={items} />
+      {errorMessage && (
+        <div className="alert alert-error" style={{ marginBottom: "16px" }}>
+          {errorMessage}
+        </div>
+      )}
 
-      <Modal open={open} title={editingItem ? "Edit Event" : "Add Event"} onClose={() => setOpen(false)}>
+      {loading ? (
+        <p>Loading events...</p>
+      ) : (
+        <DataTable columns={columns} rows={items} />
+      )}
+
+      <Modal
+        open={open}
+        title={editingItem ? "Edit Event" : "Add Event"}
+        onClose={closeModal}
+      >
         <form className="form-grid" onSubmit={handleSubmit}>
-          <input name="title" placeholder="Title" value={form.title} onChange={handleChange} required />
-          <input name="topic" placeholder="Topic" value={form.topic} onChange={handleChange} />
-          <input name="domain" placeholder="Domain" value={form.domain} onChange={handleChange} />
-          <textarea name="description" placeholder="Description" value={form.description} onChange={handleChange} rows="4" />
-          <input name="location" placeholder="Location" value={form.location} onChange={handleChange} />
-          <input name="sponsors" placeholder="Sponsors" value={form.sponsors} onChange={handleChange} />
-          <input name="capacity" placeholder="Capacity" value={form.capacity} onChange={handleChange} />
+          <input
+            name="title"
+            placeholder="Title"
+            value={form.title}
+            onChange={handleChange}
+            required
+          />
+
+          <input
+            name="topic"
+            placeholder="Topic"
+            value={form.topic}
+            onChange={handleChange}
+          />
+
+          <input
+            name="domain"
+            placeholder="Domain"
+            value={form.domain}
+            onChange={handleChange}
+          />
+
+          <textarea
+            name="description"
+            placeholder="Description"
+            value={form.description}
+            onChange={handleChange}
+            rows="4"
+          />
+
+          <input
+            name="location"
+            placeholder="Location"
+            value={form.location}
+            onChange={handleChange}
+          />
+
+          <input
+            name="sponsors"
+            placeholder="Sponsors"
+            value={form.sponsors}
+            onChange={handleChange}
+          />
+
+          <input
+            type="number"
+            name="capacity"
+            placeholder="Capacity"
+            value={form.capacity}
+            onChange={handleChange}
+          />
 
           <select name="eventType" value={form.eventType} onChange={handleChange}>
             <option value="PARTICIPANT">PARTICIPANT</option>
@@ -147,7 +265,12 @@ export default function EventsPage() {
             <option value="COMPLETED">COMPLETED</option>
           </select>
 
-          <input type="date" name="eventDate" value={form.eventDate} onChange={handleChange} />
+          <input
+            type="date"
+            name="eventDate"
+            value={form.eventDate}
+            onChange={handleChange}
+          />
 
           <label className="checkbox-row">
             <input
@@ -159,8 +282,18 @@ export default function EventsPage() {
             Registration Open
           </label>
 
-          <button className="btn btn-primary full-width">
-            {editingItem ? "Update Event" : "Create Event"}
+          <button
+            type="submit"
+            className="btn btn-primary full-width"
+            disabled={submitting}
+          >
+            {submitting
+              ? editingItem
+                ? "Updating..."
+                : "Creating..."
+              : editingItem
+              ? "Update Event"
+              : "Create Event"}
           </button>
         </form>
       </Modal>
