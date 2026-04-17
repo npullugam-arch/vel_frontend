@@ -219,7 +219,7 @@ export default function RegisterModal({
     <div className="payment-card">
       <h5>UPI Payment</h5>
       <p>
-        <span>UPI ID:</span> yourname@ybl
+        <span>UPI ID:</span> prathibha918@ibl
       </p>
       <p>
         <span>App:</span> PhonePe / Google Pay / Paytm
