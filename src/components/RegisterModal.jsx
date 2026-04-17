@@ -193,63 +193,82 @@ export default function RegisterModal({
             </div>
           </div>
 
-          <div className="payment-section">
-            <div className="payment-section-head">
-              <h4>Payment Details</h4>
-              <p>
-                Please complete the payment using any one of the methods below and enter the payment reference details.
-              </p>
-            </div>
+       <div className="payment-section">
+  <div className="payment-section-head">
+    <h4>Payment Details</h4>
+    <p>
+      Please scan the QR code or use any one of the payment methods below, then
+      enter your payment reference details.
+    </p>
+  </div>
 
-            <div className="payment-grid">
-              <div className="payment-card">
-                <h5>UPI Payment</h5>
-                <p>
-                  <span>UPI ID:</span> yourname@ybl
-                </p>
-              </div>
+  <div className="payment-qr-wrapper">
+    <div className="payment-qr-card">
+      <img
+        src="https://i.postimg.cc/q4MZ4sDx/QR-VELTRIXIS.jpg"
+        alt="Veltrixix Payment QR Code"
+        className="payment-qr-image"
+      />
+      <p className="payment-qr-text">
+        Scan this QR code to pay quickly using PhonePe / UPI apps.
+      </p>
+    </div>
+  </div>
 
-             <div className="payment-card">
-  <h5>Bank Transfer</h5>
-  <p>
-    <span>Bank Name:</span> Axis Bank
-  </p>
-  <p>
-    <span>Account Number:</span> 925020036001196
-  </p>
-  <p>
-    <span>IFSC Code:</span> UTIB0004244
-  </p>
+  <div className="payment-grid">
+    <div className="payment-card">
+      <h5>UPI Payment</h5>
+      <p>
+        <span>UPI ID:</span> yourname@ybl
+      </p>
+      <p>
+        <span>App:</span> PhonePe / Google Pay / Paytm
+      </p>
+    </div>
+
+    <div className="payment-card">
+      <h5>Bank Transfer</h5>
+      <p>
+        <span>Bank Name:</span> Axis Bank
+      </p>
+      <p>
+        <span>Account Number:</span> 925020036001196
+      </p>
+      <p>
+        <span>IFSC Code:</span> UTIB0004244
+      </p>
+    </div>
+  </div>
+
+  <div className="register-form-grid payment-input-grid">
+    <div className="form-field">
+      <label htmlFor="transactionId">Transaction ID</label>
+      <input
+        id="transactionId"
+        name="transactionId"
+        placeholder="Enter transaction ID"
+        value={form.transactionId}
+        onChange={handleChange}
+      />
+    </div>
+
+    <div className="form-field">
+      <label htmlFor="utrId">UTR ID</label>
+      <input
+        id="utrId"
+        name="utrId"
+        placeholder="Enter UTR ID"
+        value={form.utrId}
+        onChange={handleChange}
+      />
+    </div>
+  </div>
+
+  <div className="payment-note">
+    Our team will verify your payment details and contact you shortly regarding
+    the next steps of your registration.
+  </div>
 </div>
-            </div>
-
-            <div className="register-form-grid payment-input-grid">
-              <div className="form-field">
-                <label>Transaction ID</label>
-                <input
-                  name="transactionId"
-                  placeholder="Enter transaction ID"
-                  value={form.transactionId}
-                  onChange={handleChange}
-                />
-              </div>
-
-              <div className="form-field">
-                <label>UTR ID</label>
-                <input
-                  name="utrId"
-                  placeholder="Enter UTR ID"
-                  value={form.utrId}
-                  onChange={handleChange}
-                />
-              </div>
-            </div>
-
-            <div className="payment-note">
-              Our team will verify your payment details and contact you shortly regarding the next steps of your registration.
-            </div>
-          </div>
-
           <button
             type="submit"
             className="btn btn-primary full-width submit-registration-btn"
