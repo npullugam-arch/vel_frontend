@@ -1,5 +1,7 @@
-const RAW_API_BASE_URL =
-  import.meta.env.VITE_API_BASE_URL || "https://vel-backend-55nl.onrender.com/api";
+const RENDER_API_URL = "https://vel-backend-55nl.onrender.com/api";
+const RAW_API_BASE_URL = import.meta.env.DEV
+  ? import.meta.env.VITE_API_BASE_URL || RENDER_API_URL
+  : RENDER_API_URL;
 
 export const API_BASE_URL = RAW_API_BASE_URL.trim().replace(/\/+$/, "");
 
