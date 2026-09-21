@@ -30,7 +30,7 @@ export default function Navbar() {
   return (
     <header className="topbar">
       <div className="container nav">
-        <a href="#home" className="brand" onClick={handleNavClick}>
+        <a href="/#home" className="brand" onClick={handleNavClick}>
           <img
             src="https://i.postimg.cc/hjbKr4p9/veltrix-logo-transparent.png"
             alt="Veltrixis Logo"
@@ -38,11 +38,11 @@ export default function Navbar() {
           />
         </a>
 
-        <nav className={`navlinks ${open ? "open" : ""}`}>
+        <nav id="public-navigation" aria-label="Main navigation" className={`navlinks ${open ? "open" : ""}`}>
           {links.map((link) => (
             <a
               key={link.label}
-              href={link.href}
+              href={`/${link.href}`}
               className={activeHash === link.href ? "active" : ""}
               onClick={handleNavClick}
             >
@@ -52,10 +52,10 @@ export default function Navbar() {
         </nav>
 
         <div className="nav-cta">
-          <a href="#internships" className="btn">
+          <a href="/#internships" className="btn">
             Internships
           </a>
-          <a href="#projects" className="btn primary">
+          <a href="/#projects" className="btn primary">
             Get Started
           </a>
 
@@ -64,6 +64,8 @@ export default function Navbar() {
             className="menu-btn"
             onClick={() => setOpen((prev) => !prev)}
             aria-label="Toggle navigation"
+            aria-expanded={open}
+            aria-controls="public-navigation"
           >
             ☰
           </button>

@@ -1,3 +1,4 @@
+import BusinessContact from "./BusinessContact";
 import { useState } from "react";
 import { submitContact } from "../api/api";
 import SectionTitle from "./SectionTitle";
@@ -49,19 +50,16 @@ export default function ContactSection() {
 
         <div className="contact-grid">
           <div className="glass-card">
-            <h3>Veltrixis</h3>
-            <p>Email: contact@veltrixis.com</p>
-            {/* <p>Phone: +91 96528 87222</p> */}
-            <p>Location: Mig 146 -1/3 road no. 44 mayuri nagar, miyapur, hyderabad, 500049</p>
+            <BusinessContact />
           </div>
 
           <form className="glass-card form-grid" onSubmit={handleSubmit}>
-            <input name="name" placeholder="Your Name" value={form.name} onChange={handleChange} required />
-            <input name="email" placeholder="Your Email" value={form.email} onChange={handleChange} required />
-            <input name="phone" placeholder="Phone Number" value={form.phone} onChange={handleChange} />
-            <input name="subject" placeholder="Subject" value={form.subject} onChange={handleChange} />
+            <input aria-label="Name" name="name" placeholder="Your Name" value={form.name} onChange={handleChange} required />
+            <input type="email" aria-label="Your Email" name="email" placeholder="Your Email" value={form.email} onChange={handleChange} required />
+            <input aria-label="Phone" name="phone" placeholder="Phone Number" value={form.phone} onChange={handleChange} />
+            <input aria-label="Subject" name="subject" placeholder="Subject" value={form.subject} onChange={handleChange} />
             <textarea
-              name="message"
+              aria-label="Message" name="message"
               placeholder="Message"
               rows="5"
               value={form.message}

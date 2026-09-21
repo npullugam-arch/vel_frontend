@@ -62,7 +62,7 @@ export default function LoginPage() {
   return (
     <div className="login-page">
       <div className="login-card">
-        <p className="eyebrow">Veltrixix Admin</p>
+        <p className="eyebrow">Veltrixis Admin</p>
         <h1>Secure Login</h1>
         <p className="muted-text">
           Login to manage internships, events, projects, and approvals.

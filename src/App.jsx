@@ -1,3 +1,5 @@
+import Footer from "./components/Footer";
+import PublicPage from "./pages/PublicPage";
 import { Navigate, Route, Routes } from "react-router-dom";
 import ProtectedRoute from "./components/ProtectedRoute";
 import AdminLayout from "./components/AdminLayout";
@@ -15,8 +17,20 @@ import QrConfigsPage from "./pages/QrConfigsPage";
 export default function App() {
   return (
     <Routes>
+      <Route path="/about" element={<Navigate to="/about-us" replace />} />
+      <Route path="/terms" element={<Navigate to="/terms-conditions" replace />} />
+      <Route path="/refund-policy" element={<Navigate to="/refund-cancellation-policy" replace />} />
+      <Route path="/internships" element={<Navigate to="/programs" replace />} />
       <Route path="/" element={<HomePage />} />
-      <Route path="/login" element={<LoginPage />} />
+      <Route path="/about-us" element={<PublicPage page="about-us" />} />
+      <Route path="/privacy-policy" element={<PublicPage page="privacy-policy" />} />
+      <Route path="/refund-cancellation-policy" element={<PublicPage page="refund-cancellation-policy" />} />
+      <Route path="/service-delivery-policy" element={<PublicPage page="service-delivery-policy" />} />
+      <Route path="/terms-conditions" element={<PublicPage page="terms-conditions" />} />
+      <Route path="/contact" element={<PublicPage page="contact" />} />
+      <Route path="/programs" element={<PublicPage page="programs" />} />
+      <Route path="/projects" element={<PublicPage page="projects" />} />
+      <Route path="/login" element={<><LoginPage /><Footer /></>} />
 
       <Route
         path="/admin"

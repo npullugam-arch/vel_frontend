@@ -1,3 +1,4 @@
+import ProgramAdminFields from "../components/ProgramAdminFields";
 import { useEffect, useState } from "react";
 import { eventsApi } from "../api/adminApi";
 import PageHeader from "../components/PageHeader";
@@ -5,6 +6,13 @@ import DataTable from "../components/DataTable";
 import Modal from "../components/Modal";
 
 const initialForm = {
+  programStartInfo: "",
+  deliverables: "",
+  eligibility: "",
+  deliveryDetails: "",
+  fee: "",
+  duration: "",
+
   title: "",
   topic: "",
   domain: "",
@@ -65,6 +73,13 @@ export default function EventsPage() {
   const openEdit = (item) => {
     setEditingItem(item);
     setForm({
+      programStartInfo: item.programStartInfo ?? "",
+      deliverables: item.deliverables ?? "",
+      eligibility: item.eligibility ?? "",
+      deliveryDetails: item.deliveryDetails ?? "",
+      fee: item.fee ?? "",
+      duration: item.duration ?? "",
+
       title: item.title || "",
       topic: item.topic || "",
       domain: item.domain || "",
@@ -95,6 +110,7 @@ export default function EventsPage() {
 
     const payload = {
       ...form,
+      fee: form.fee === "" ? null : Number(form.fee),
       capacity: form.capacity === "" ? null : Number(form.capacity),
       eventDate: form.eventDate || null,
     };
@@ -202,6 +218,7 @@ export default function EventsPage() {
         onClose={closeModal}
       >
         <form className="form-grid" onSubmit={handleSubmit}>
+          <ProgramAdminFields form={form} onChange={handleChange} includeFeeDuration={true} />
           <input
             name="title"
             placeholder="Title"

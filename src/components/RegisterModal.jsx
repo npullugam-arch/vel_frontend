@@ -1,3 +1,5 @@
+import ProgramDisclosure from "./ProgramDisclosure";
+import { canShowPayment, hasFee } from "../data/programDetails";
 import { useState } from "react";
 import { submitRegistration } from "../api/api";
 
@@ -22,12 +24,14 @@ export default function RegisterModal({
   type,
   itemId,
   itemTitle,
+  item,
 }) {
   const [form, setForm] = useState(initialForm);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
   if (!open) return null;
+  const paymentAvailable = canShowPayment(item);
 
   const handleChange = (e) => {
     setForm((prev) => ({
@@ -58,7 +62,7 @@ export default function RegisterModal({
       const result = await submitRegistration(buildPayload());
       setMessage(
         result?.message ||
-          "Registration submitted successfully. Our team will verify your payment and contact you shortly."
+          "Registration submitted successfully. Our team will review your application and contact you about the next steps."
       );
       setForm(initialForm);
     } catch (error) {
@@ -72,21 +76,25 @@ export default function RegisterModal({
     <div className="modal-backdrop" onClick={onClose}>
       <div
         className="modal-box glass-card register-modal-box"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="registration-title"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="modal-head">
           <div>
-            <h3>Register for {itemTitle}</h3>
+            <h3 id="registration-title">Register for {itemTitle}</h3>
             <p className="modal-subtitle">
-              Fill in your details carefully and complete the payment using the details below.
+              Review the program information, then fill in your registration details.
             </p>
           </div>
 
-          <button className="close-btn" onClick={onClose} type="button">
+          <button className="close-btn" onClick={onClose} type="button" aria-label="Close registration">
             ✕
           </button>
         </div>
 
+        <ProgramDisclosure item={item} type={type} />
         <form className="register-form" onSubmit={handleSubmit}>
           <div className="register-form-grid">
             <div className="form-field">
@@ -193,7 +201,7 @@ export default function RegisterModal({
             </div>
           </div>
 
-       <div className="payment-section">
+       {paymentAvailable && <div className="payment-section">
   <div className="payment-section-head">
     <h4>Payment Details</h4>
     <p>
@@ -206,7 +214,7 @@ export default function RegisterModal({
     <div className="payment-qr-card">
       <img
         src="https://i.postimg.cc/q4MZ4sDx/QR-VELTRIXIS.jpg"
-        alt="Veltrixix Payment QR Code"
+        alt="Veltrixis Payment QR Code"
         className="payment-qr-image"
       />
       <p className="payment-qr-text">
@@ -268,7 +276,9 @@ export default function RegisterModal({
     Our team will verify your payment details and contact you shortly regarding
     the next steps of your registration.
   </div>
-</div>
+</div>}
+          <p className="listing-notice">{hasFee(item) && Number(item.fee) === 0 ? "This program is free. No payment is required." : !paymentAvailable ? "Submit your application without payment. Wait for complete program information before paying." : "Pay only the program fee shown above. Payment is verified before access is confirmed."}</p>
+          <p>By submitting, you confirm that you have read the <a href="/terms-conditions" target="_blank" rel="noreferrer">Terms & Conditions</a>, <a href="/privacy-policy" target="_blank" rel="noreferrer">Privacy Policy</a> and refund policy above.</p>
           <button
             type="submit"
             className="btn btn-primary full-width submit-registration-btn"

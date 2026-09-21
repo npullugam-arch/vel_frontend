@@ -1,7 +1,12 @@
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
-<!--  created with Free Online Sitemap Generator www.xml-sitemaps.com  -->
-<url>
-<loc>https://www.veltrixis.co/</loc>
-<lastmod>2026-04-11T03:52:11+00:00</lastmod>
-</url>
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://www.veltrixis.co/</loc></url>
+  <url><loc>https://www.veltrixis.co/about-us</loc></url>
+  <url><loc>https://www.veltrixis.co/contact</loc></url>
+  <url><loc>https://www.veltrixis.co/programs</loc></url>
+  <url><loc>https://www.veltrixis.co/projects</loc></url>
+  <url><loc>https://www.veltrixis.co/privacy-policy</loc></url>
+  <url><loc>https://www.veltrixis.co/terms-conditions</loc></url>
+  <url><loc>https://www.veltrixis.co/refund-cancellation-policy</loc></url>
+  <url><loc>https://www.veltrixis.co/service-delivery-policy</loc></url>
 </urlset>

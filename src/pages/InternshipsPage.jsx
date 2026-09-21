@@ -1,3 +1,4 @@
+import ProgramAdminFields from "../components/ProgramAdminFields";
 import { useEffect, useState } from "react";
 import { internshipsApi } from "../api/adminApi";
 import PageHeader from "../components/PageHeader";
@@ -5,6 +6,11 @@ import DataTable from "../components/DataTable";
 import Modal from "../components/Modal";
 
 const initialForm = {
+  programStartInfo: "",
+  deliverables: "",
+  eligibility: "",
+  deliveryDetails: "",
+
   title: "",
   domain: "",
   mentorName: "",
@@ -53,6 +59,11 @@ export default function InternshipsPage() {
   const openEdit = (item) => {
     setEditingItem(item);
     setForm({
+      programStartInfo: item.programStartInfo ?? "",
+      deliverables: item.deliverables ?? "",
+      eligibility: item.eligibility ?? "",
+      deliveryDetails: item.deliveryDetails ?? "",
+
       title: item.title || "",
       domain: item.domain || "",
       mentorName: item.mentorName || "",
@@ -61,7 +72,7 @@ export default function InternshipsPage() {
       scheduleText: item.scheduleText || "",
       duration: item.duration || "",
       mode: item.mode || "ONLINE",
-      fee: item.fee || "",
+      fee: item.fee ?? "",
       capacity: item.capacity || "",
       status: item.status || "ONGOING",
       registrationOpen: item.registrationOpen ?? true,
@@ -139,6 +150,7 @@ export default function InternshipsPage() {
         onClose={() => setOpen(false)}
       >
         <form className="form-grid" onSubmit={handleSubmit}>
+          <ProgramAdminFields form={form} onChange={handleChange} includeFeeDuration={false} />
           <input name="title" placeholder="Title" value={form.title} onChange={handleChange} required />
           <input name="domain" placeholder="Domain" value={form.domain} onChange={handleChange} />
           <input name="mentorName" placeholder="Mentor Name" value={form.mentorName} onChange={handleChange} />

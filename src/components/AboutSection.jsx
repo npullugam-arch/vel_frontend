@@ -6,6 +6,7 @@ export default function AboutSection() {
           <div className="sec-head reveal">
             <span className="sec-label">About Veltrixis</span>
             <h2>Who we are &amp; what we do</h2>
+            <p className="section-eyebrow">Education, Training, Internship &amp; Project Collaboration Platform</p>
             <p>
               A curated ecosystem connecting learners, mentors, and organizations
               through structured programs, guided internships, and high-impact
@@ -85,8 +86,7 @@ export default function AboutSection() {
               <p>
                 Provide structured, outcome-driven opportunities through
                 internships, events, and collaborative projects — with expert
-                mentor guidance and measurable deliverables that make every
-                participant industry-ready.
+                mentor guidance and clear deliverables that help students develop practical skills.
               </p>
               <div
                 className="quote-block"

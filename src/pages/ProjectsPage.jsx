@@ -1,3 +1,4 @@
+import ProgramAdminFields from "../components/ProgramAdminFields";
 import { useEffect, useState } from "react";
 import { projectsApi } from "../api/adminApi";
 import PageHeader from "../components/PageHeader";
@@ -5,6 +6,13 @@ import DataTable from "../components/DataTable";
 import Modal from "../components/Modal";
 
 const initialForm = {
+  programStartInfo: "",
+  deliverables: "",
+  eligibility: "",
+  deliveryDetails: "",
+  fee: "",
+  duration: "",
+
   title: "",
   description: "",
   mentorName: "",
@@ -46,6 +54,13 @@ export default function ProjectsPage() {
   const openEdit = (item) => {
     setEditingItem(item);
     setForm({
+      programStartInfo: item.programStartInfo ?? "",
+      deliverables: item.deliverables ?? "",
+      eligibility: item.eligibility ?? "",
+      deliveryDetails: item.deliveryDetails ?? "",
+      fee: item.fee ?? "",
+      duration: item.duration ?? "",
+
       title: item.title || "",
       description: item.description || "",
       mentorName: item.mentorName || "",
@@ -60,10 +75,11 @@ export default function ProjectsPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const payload = { ...form, fee: form.fee === "" ? null : Number(form.fee) };
     if (editingItem) {
-      await projectsApi.update(editingItem.id, form);
+      await projectsApi.update(editingItem.id, payload);
     } else {
-      await projectsApi.create(form);
+      await projectsApi.create(payload);
     }
 
     setOpen(false);
@@ -114,6 +130,7 @@ export default function ProjectsPage() {
 
       <Modal open={open} title={editingItem ? "Edit Project" : "Add Project"} onClose={() => setOpen(false)}>
         <form className="form-grid" onSubmit={handleSubmit}>
+          <ProgramAdminFields form={form} onChange={handleChange} includeFeeDuration={true} />
           <input name="title" placeholder="Title" value={form.title} onChange={handleChange} required />
           <textarea name="description" placeholder="Description" value={form.description} onChange={handleChange} rows="4" />
           <input name="mentorName" placeholder="Mentor Name" value={form.mentorName} onChange={handleChange} />

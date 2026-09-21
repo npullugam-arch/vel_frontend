@@ -1,6 +1,7 @@
+import { formatProgramFee } from "../data/programDetails";
+import ProgramDisclosure from "./ProgramDisclosure";
 import { useEffect, useMemo, useState } from "react";
 import { getPublicInternships } from "../api/api";
-import { fallbackInternships } from "../data/fallbackData";
 import SectionTitle from "./SectionTitle";
 import RegisterModal from "./RegisterModal";
 
@@ -16,21 +17,6 @@ function formatDate(dateValue) {
   } catch {
     return dateValue;
   }
-}
-
-function formatFee(fee) {
-  if (fee === null || fee === undefined || fee === "") {
-    return "Free / Not specified";
-  }
-
-  const numericFee = Number(fee);
-  if (Number.isNaN(numericFee)) return fee;
-
-  return new Intl.NumberFormat("en-IN", {
-    style: "currency",
-    currency: "INR",
-    maximumFractionDigits: 0,
-  }).format(numericFee);
 }
 
 function getStatusClass(status) {
@@ -102,6 +88,8 @@ export default function InternshipSection() {
   const [selected, setSelected] = useState(null);
   const [activeFilter, setActiveFilter] = useState("ONGOING");
   const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState(false);
+  const [retryCount, setRetryCount] = useState(0);
   const [detailModal, setDetailModal] = useState({
     open: false,
     title: "",
@@ -112,18 +100,22 @@ export default function InternshipSection() {
     async function loadInternships() {
       try {
         setLoading(true);
+        setLoadError(false);
         const result = await getPublicInternships();
-        const data = result?.data?.length ? result.data : fallbackInternships;
+        const rows = result?.data ?? result;
+        if (!Array.isArray(rows)) throw new Error("Invalid catalog response");
+        const data = rows;
         setInternships(data);
       } catch (error) {
-        setInternships(fallbackInternships);
+        setInternships([]);
+        setLoadError(true);
       } finally {
         setLoading(false);
       }
     }
 
     loadInternships();
-  }, []);
+  }, [retryCount]);
 
   const filteredInternships = useMemo(() => {
     return internships.filter(
@@ -196,7 +188,14 @@ export default function InternshipSection() {
           </button>
         </div>
 
-        {loading ? (
+        {loadError ? (
+          <div className="internship-empty-state" role="status">
+            <h3>Unable to load internships</h3>
+            <p>Please retry or contact support for current program details. Do not pay until the listing is available.</p>
+            <button type="button" className="btn" onClick={() => setRetryCount((count) => count + 1)}>Retry</button>
+            <a className="btn" href="/contact">Contact support</a>
+          </div>
+        ) : loading ? (
           <div className="internship-empty-state">
             <h3>Loading internships...</h3>
             <p>Please wait while we fetch the latest internship opportunities.</p>
@@ -258,7 +257,7 @@ export default function InternshipSection() {
 
                     <div className="internship-mini-box">
                       <span className="internship-mini-label">Fee</span>
-                      <strong>{formatFee(item.fee)}</strong>
+                      <strong>{formatProgramFee(item)}</strong>
                     </div>
                   </div>
 
@@ -278,6 +277,8 @@ export default function InternshipSection() {
                       <strong>{formatDate(item.endDate)}</strong>
                     </div>
                   </div>
+
+                  <ProgramDisclosure item={item} type="Internship" />
 
                   <div className="internship-card-actions internship-card-actions-vertical">
                     <button
@@ -318,6 +319,8 @@ export default function InternshipSection() {
           open={!!selected}
           onClose={() => setSelected(null)}
           type="INTERNSHIP"
+          item={selected}
+          key={selected?.id || "closed"}
           itemId={selected?.id}
           itemTitle={selected?.title || ""}
         />

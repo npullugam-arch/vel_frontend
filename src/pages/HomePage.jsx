@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 
 import Navbar from "../components/Navbar";
 import AboutSection from "../components/AboutSection";
@@ -8,49 +8,12 @@ import ProjectSection from "../components/ProjectSection";
 import ContactSection from "../components/ContactSection";
 import Footer from "../components/Footer";
 
-import {
-  getPublicInternships,
-  getPublicEvents,
-  getPublicProjects,
-} from "../api/publicApi";
+import PageMeta from "../components/PageMeta";
 
 export default function HomePage() {
-  const [internships, setInternships] = useState([]);
-  const [events, setEvents] = useState([]);
-  const [projects, setProjects] = useState([]);
-
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
-
   const bgCanvasRef = useRef(null);
   const sphereCanvasRef = useRef(null);
   const sphereWrapRef = useRef(null);
-
-  useEffect(() => {
-    async function loadData() {
-      try {
-        setLoading(true);
-        setError("");
-
-        const [internshipsData, eventsData, projectsData] = await Promise.all([
-          getPublicInternships(),
-          getPublicEvents(),
-          getPublicProjects(),
-        ]);
-
-        setInternships(internshipsData?.data || internshipsData || []);
-        setEvents(eventsData?.data || eventsData || []);
-        setProjects(projectsData?.data || projectsData || []);
-      } catch (err) {
-        console.error("Homepage load error:", err);
-        setError("Failed to load public content.");
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    loadData();
-  }, []);
 
   // Background animated particles
   useEffect(() => {
@@ -505,21 +468,22 @@ export default function HomePage() {
     elements.forEach((el) => observer.observe(el));
 
     return () => observer.disconnect();
-  }, [loading, error, internships, events, projects]);
+  }, []);
 
   return (
-    <div className="site-shell home-page">
+    <div id="home" className="site-shell home-page">
       <canvas id="bg-canvas" ref={bgCanvasRef} />
       <div className="aurora" />
       <div className="noise-overlay" />
 
+      <PageMeta title="Internships, Projects & Training" description="Explore Veltrixis internships, projects, training, mentorship and student collaboration with clear program fees and service policies." />
       <Navbar />
 
       <main>
         <section className="hero hero-section">
           <div className="container hero-grid">
             <div className="hero-content reveal visible">
-              <div className="hero-tag">🚀 Next-Gen AI Innovation Hub</div>
+              <div className="hero-tag">🚀 Student learning &amp; collaboration</div>
 
               <h1 className="hero-title">
                 Building the next
@@ -530,9 +494,7 @@ export default function HomePage() {
               </h1>
 
               <p className="hero-sub">
-                VELTRIXIS is a premium, futuristic learning-and-collaboration
-                ecosystem for internships, events, and real-world projects —
-                powered by AI and driven by purpose.
+                Veltrixis offers internships, projects, training, mentorship and student collaboration. Explore each program for its scope, fee and access details.
               </p>
 
               <div className="hero-btns">
@@ -546,16 +508,16 @@ export default function HomePage() {
 
               <div className="hero-stats">
                 <div className="hstat">
-                  <strong>200+</strong>
-                  <span>Students Trained</span>
+                  <strong>Learn</strong>
+                  <span>Training &amp; internships</span>
                 </div>
                 <div className="hstat">
-                  <strong>30+</strong>
-                  <span>Live Projects</span>
+                  <strong>Build</strong>
+                  <span>Practical projects</span>
                 </div>
                 <div className="hstat">
-                  <strong>15+</strong>
-                  <span>Expert Mentors</span>
+                  <strong>Collaborate</strong>
+                  <span>Mentorship &amp; teamwork</span>
                 </div>
               </div>
             </div>
@@ -573,7 +535,7 @@ export default function HomePage() {
   </div>
 
   <div className="inner-badge inner-badge-ai nanda">
-    <span>⚡</span> AI Smart Programs
+    <span>⚡</span> Guided Programs
   </div>
 
   <div className="inner-badge inner-badge-3d minnu">
@@ -585,44 +547,9 @@ export default function HomePage() {
 
         <AboutSection />
 
-        {loading && (
-          <section className="section">
-            <div className="container">
-              <div className="panel pad reveal visible">
-                <div className="empty-state">
-                  <h3>Loading content...</h3>
-                  <p>
-                    Please wait while we load internships, events, and projects.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </section>
-        )}
-
-        {error && !loading && (
-          <section className="section">
-            <div className="container">
-              <div className="panel pad reveal visible">
-                <div className="empty-state error">
-                  <h3>{error}</h3>
-                  <p>
-                    Backend connection is safe. Only the public content could
-                    not be loaded right now.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </section>
-        )}
-
-        {!loading && !error && (
-          <>
-            <InternshipSection data={internships} />
-            <EventSection data={events} />
-            <ProjectSection data={projects} />
-          </>
-        )}
+        <InternshipSection />
+        <EventSection />
+        <ProjectSection />
 
         <ContactSection />
       </main>

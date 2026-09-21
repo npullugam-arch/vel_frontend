@@ -1,6 +1,6 @@
+import ProgramDisclosure from "./ProgramDisclosure";
 import { useEffect, useMemo, useState } from "react";
 import { getPublicProjects } from "../api/api";
-import { fallbackProjects } from "../data/fallbackData";
 import SectionTitle from "./SectionTitle";
 import RegisterModal from "./RegisterModal";
 
@@ -33,23 +33,29 @@ export default function ProjectSection() {
   const [selected, setSelected] = useState(null);
   const [activeCategory, setActiveCategory] = useState("ALL");
   const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState(false);
+  const [retryCount, setRetryCount] = useState(0);
 
   useEffect(() => {
     async function loadProjects() {
       try {
         setLoading(true);
+        setLoadError(false);
         const result = await getPublicProjects();
-        const data = result?.data?.length ? result.data : fallbackProjects;
+        const rows = result?.data ?? result;
+        if (!Array.isArray(rows)) throw new Error("Invalid catalog response");
+        const data = rows;
         setProjects(data);
       } catch (error) {
-        setProjects(fallbackProjects);
+        setProjects([]);
+        setLoadError(true);
       } finally {
         setLoading(false);
       }
     }
 
     loadProjects();
-  }, []);
+  }, [retryCount]);
 
   const categories = useMemo(() => {
     const unique = Array.from(
@@ -77,7 +83,7 @@ export default function ProjectSection() {
         <SectionTitle
           eyebrow="Projects"
           title="Built through mentorship, teamwork, and real execution"
-          subtitle="Explore Veltrixix projects with full clarity on mentor guidance, team structure, project status, collaboration availability, and execution details."
+          subtitle="Explore Veltrixis projects with full clarity on mentor guidance, team structure, project status, collaboration availability, and execution details."
         />
 
         {categories.length > 1 && (
@@ -96,7 +102,14 @@ export default function ProjectSection() {
           </div>
         )}
 
-        {loading ? (
+        {loadError ? (
+          <div className="project-empty-state" role="status">
+            <h3>Unable to load projects</h3>
+            <p>Please retry or contact support for current program details. Do not pay until the listing is available.</p>
+            <button type="button" className="btn" onClick={() => setRetryCount((count) => count + 1)}>Retry</button>
+            <a className="btn" href="/contact">Contact support</a>
+          </div>
+        ) : loading ? (
           <div className="project-empty-state">
             <h3>Loading projects...</h3>
             <p>Please wait while we fetch the latest project details.</p>
@@ -162,6 +175,8 @@ export default function ProjectSection() {
                     <p>{item.teamInfo || "Team information will be updated soon."}</p>
                   </div>
 
+                  <ProgramDisclosure item={item} type="Project collaboration" />
+
                   <div className="project-action-zone">
                     <button
                       className={`btn project-action-btn ${
@@ -183,6 +198,8 @@ export default function ProjectSection() {
           open={!!selected}
           onClose={() => setSelected(null)}
           type="PROJECT"
+          item={selected}
+          key={selected?.id || "closed"}
           itemId={selected?.id}
           itemTitle={selected?.title || ""}
         />

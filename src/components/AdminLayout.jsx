@@ -26,7 +26,7 @@ export default function AdminLayout() {
       <aside className="sidebar">
         <div>
           <div className="brand-box">
-            <h2>Veltrixix</h2>
+            <h2>Veltrixis</h2>
             <p>Admin Panel</p>
           </div>
 

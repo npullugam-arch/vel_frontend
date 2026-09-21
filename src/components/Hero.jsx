@@ -35,7 +35,7 @@ export default function Hero() {
     <section id="home" className="hero">
       <div className="container hero-grid">
         <div className="fade-up">
-          <div className="hero-tag">🚀 Next-Gen AI Innovation Hub</div>
+          <div className="hero-tag">🚀 Student learning &amp; collaboration</div>
 
           <h1 className="hero-title">
             Building the next
@@ -45,11 +45,7 @@ export default function Hero() {
             hub for the future
           </h1>
 
-          <p className="hero-sub">
-            Veltrixix is a premium, futuristic learning-and-collaboration ecosystem
-            for internships, events, and real-world projects — powered by AI and
-            driven by purpose.
-          </p>
+          <p className="hero-sub">Veltrixis offers internships, projects, training, mentorship and student collaboration. Explore each program for its scope, fee and access details.</p>
 
           <div className="hero-btns">
             <a href="#internships" className="btn primary">
@@ -62,16 +58,16 @@ export default function Hero() {
 
           <div className="hero-stats">
             <div className="hstat">
-              <strong>200+</strong>
-              <span>Students Trained</span>
+              <strong>Learn</strong>
+                  <span>Training &amp; internships</span>
             </div>
             <div className="hstat">
-              <strong>30+</strong>
-              <span>Live Projects</span>
+              <strong>Build</strong>
+                  <span>Practical projects</span>
             </div>
             <div className="hstat">
-              <strong>15+</strong>
-              <span>Expert Mentors</span>
+              <strong>Collaborate</strong>
+                  <span>Mentorship &amp; teamwork</span>
             </div>
           </div>
         </div>
@@ -88,7 +84,7 @@ export default function Hero() {
           </div>
 
           <div className="inner-badge inner-badge-ai">
-            <span>⚡</span> AI Smart Programs
+            <span>⚡</span> Guided Programs
           </div>
           <div className="inner-badge inner-badge-3d">
             <span>🌀</span> Interactive Experience

@@ -10,7 +10,7 @@ export const API_ORIGIN = (() => {
     return new URL(API_BASE_URL).origin;
   } catch (error) {
     console.error("Invalid VITE_API_BASE_URL:", API_BASE_URL, error);
-    return "http://localhost:8080";
+    return new URL(RENDER_API_URL).origin;
   }
 })();
 
@@ -23,7 +23,7 @@ function getToken() {
     return parsed?.token || "";
   } catch (error) {
     console.error("Failed to parse auth token from localStorage:", error);
-    localStorage.removeItem(STORAGE_KEY);
+    try { localStorage.removeItem(STORAGE_KEY); } catch { /* Storage may be blocked. */ }
     return "";
   }
 }

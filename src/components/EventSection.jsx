@@ -1,6 +1,6 @@
+import ProgramDisclosure from "./ProgramDisclosure";
 import { useEffect, useMemo, useState } from "react";
 import { getPublicEvents } from "../api/api";
-import { fallbackEvents } from "../data/fallbackData";
 import SectionTitle from "./SectionTitle";
 import RegisterModal from "./RegisterModal";
 
@@ -40,23 +40,29 @@ export default function EventSection() {
   const [selected, setSelected] = useState(null);
   const [activeFilter, setActiveFilter] = useState("ONGOING");
   const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState(false);
+  const [retryCount, setRetryCount] = useState(0);
 
   useEffect(() => {
     async function loadEvents() {
       try {
         setLoading(true);
+        setLoadError(false);
         const result = await getPublicEvents();
-        const data = result?.data?.length ? result.data : fallbackEvents;
+        const rows = result?.data ?? result;
+        if (!Array.isArray(rows)) throw new Error("Invalid catalog response");
+        const data = rows;
         setEvents(data);
       } catch (error) {
-        setEvents(fallbackEvents);
+        setEvents([]);
+        setLoadError(true);
       } finally {
         setLoading(false);
       }
     }
 
     loadEvents();
-  }, []);
+  }, [retryCount]);
 
   const filteredEvents = useMemo(() => {
     return events.filter(
@@ -96,7 +102,14 @@ export default function EventSection() {
           </button>
         </div>
 
-        {loading ? (
+        {loadError ? (
+          <div className="event-empty-state" role="status">
+            <h3>Unable to load events</h3>
+            <p>Please retry or contact support for current program details. Do not pay until the listing is available.</p>
+            <button type="button" className="btn" onClick={() => setRetryCount((count) => count + 1)}>Retry</button>
+            <a className="btn" href="/contact">Contact support</a>
+          </div>
+        ) : loading ? (
           <div className="event-empty-state">
             <h3>Loading events...</h3>
             <p>Please wait while we fetch the latest event details.</p>
@@ -166,6 +179,8 @@ export default function EventSection() {
                     <p>{item.description || "Description will be updated soon."}</p>
                   </div>
 
+                  <ProgramDisclosure item={item} type="Event / training" />
+
                   <div className="event-footer">
                     <div
                       className={`event-registration-state ${
@@ -196,6 +211,8 @@ export default function EventSection() {
           open={!!selected}
           onClose={() => setSelected(null)}
           type="EVENT"
+          item={selected}
+          key={selected?.id || "closed"}
           itemId={selected?.id}
           itemTitle={selected?.title || ""}
         />

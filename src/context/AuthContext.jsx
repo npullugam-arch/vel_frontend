@@ -9,20 +9,20 @@ export function AuthProvider({ children }) {
       const saved = localStorage.getItem(STORAGE_KEY);
       return saved ? JSON.parse(saved) : null;
     } catch (error) {
-      console.error("Failed to parse auth from localStorage:", error);
-      localStorage.removeItem(STORAGE_KEY);
+      console.warn("Saved sign-in could not be restored; public access remains available.");
+      try { localStorage.removeItem(STORAGE_KEY); } catch { /* Public pages must work without storage. */ }
       return null;
     }
   });
 
   const login = (payload) => {
     setAuth(payload);
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(payload)); } catch { /* Keep this session in memory. */ }
   };
 
   const logout = () => {
     setAuth(null);
-    localStorage.removeItem(STORAGE_KEY);
+    try { localStorage.removeItem(STORAGE_KEY); } catch { /* Storage may be blocked. */ }
   };
 
   const value = useMemo(
